@@ -9,7 +9,7 @@ import com.api.cars.documents.LogCars;
 import com.api.cars.repositories.LogsRepository;
 
 @Service
-public class ClienteServiceAux implements LogCarService {
+public class LogCarServiceAux implements LogCarService {
 
 	@Autowired
 	private LogsRepository logsRepository;

@@ -40,7 +40,4 @@ public class LogCars {
 	public void setCarId(String carId) {
 		this.carId = carId;
 	}
-	
-	
-
 }

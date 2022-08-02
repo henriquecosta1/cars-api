@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.api.cars.documents.LogCars;
+import com.api.cars.dto.CarDTO;
 import com.api.cars.model.Car;
 import com.api.cars.service.LogCarService;
 
@@ -36,21 +37,20 @@ public class CarController {
 	}
 	
 	@PostMapping(value = "/createCar")
-	public Object createCar(@RequestBody Car car, LogCars logCar) {
+	public Object createCar(@RequestBody Car car, LogCars logCars) {
 		String url = "http://api-test.bhut.com.br:3000/api/cars";
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		
 		HttpEntity<Object> entity = new HttpEntity<Object>(car, headers);
-		ResponseEntity<Object> responseEntity = restTemplate.postForEntity(url, entity, Object.class);
-		
-		logCar.setDataHora(LocalDateTime.now());
-		logCar.setCarId(car.getId());
-		this.logCarService.salvar(logCar);
+		ResponseEntity<CarDTO> responseEntity = restTemplate.postForEntity(url, entity, CarDTO.class);
+				
+		logCars.setDataHora(LocalDateTime.now());
+		logCars.setCarId(responseEntity.getBody().get_id());
+		this.logCarService.salvar(logCars);
 		
 		return responseEntity.getBody();
-		
 	}
 	
 	@GetMapping(value = "/logs")
